@@ -185,7 +185,7 @@ $$
 
 We now rank the standardized coefficients of each discriminant function, $LD_1$ and $LD_2$, by observing their absolute values.
 
-For the first discriminant function ($LD_1$), $y_1$ (age) and $y_3$ (average diastolic BP) are the most important for separating the groups, followed by $y_4$ (cholesterol) and $y_2$ (body weight):  $y_1 \rightarrow y_3 \rightarrow y_4 \rightarrow y_2$.
+For the first discriminant function ($LD_1$), $y_1$ (age) and $y_3$ (average diastolic BP) are the most important for separating the groups, followed by $y_2$ (body weight) and $y_4$ (cholesterol):  $y_1 \rightarrow y_3 \rightarrow y_2 \rightarrow y_4$.
 
 For the second discriminant function ($LD_2$), $y_3$, $y_1$, and $y_2$ are the most important, followed by $y_4$:  $y_3 \rightarrow y_1 \rightarrow y_2 \rightarrow y_4$.
 
