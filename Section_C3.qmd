@@ -1,0 +1,111 @@
+---
+title: "Section C3" 
+format: html 
+editor: visual 
+---
+
+# C.3 Classification Analysis
+
+## Four most significant variables
+
+```{r}
+nhanes <- read.csv("NHANES3_419.csv", header = TRUE, sep = ",")  
+#Omit height 
+data <- nhanes[,-4]
+```
+
+## Classification Analysis
+
+```{r}
+lin.class <- function(Y,group){   
+  # Install MASS package if not already installed   
+  if (!require("MASS")) install.packages("MASS") 
+  library(MASS)   
+  Y <- data.matrix(Y)   
+  group <- as.factor(group)   
+  p <- ncol(Y)   
+  m1 <- manova(Y ~ group)   
+  nu.e <- m1$df   
+  nu.h <- m1$rank-1   
+  Sp <- summary(m1)$SS$Residual/(nu.e)   
+  cio <- 1:m1$rank   
+  c.mat <- matrix(nrow=m1$rank,ncol=p,0)   
+  for (i in 1:m1$rank) {     
+    cio[i] <- -.5*t(lda(Y,group)$means[i,])%*%solve(Sp)%*%       
+      lda(Y,group)$means[i,]     
+    c.mat[i,] <- t(lda(Y,group)$means[i,])%*%solve(Sp)   
+  }   
+  return(list("coefs"=c.mat,"c.0"=cio)) }  
+
+lin.class(data[,-1], data[,1])
+```
+
+Given:
+
+y1 = Age (Variable 2)
+
+y2 = Body Weight (Variable 3)
+
+y3 = Average Diastolic BP (Variable 5)
+
+y4 = Serum Cholesterol (Variable 6)
+
+Then:
+
+L1 = 0.292y1 + 0.112y2 + 0.679y3 + 0.079y4 - 45.528
+
+L2 = 0.356y1 + 0.129y2 + 0.781y3 + 0.073y4 - 57.051
+
+L3 = 0.446y1 + 0.135y2 + 0.838y3 + 0.063y4 - 65.632
+
+Assign to G1, G2, or G3 depending on if L1, L2, or L3 respectively yields the greatest value for a given observation.
+
+## Apply Classification to Observation 1
+
+Observation 1, eliminating height:
+
+nhanes(1)'= (63 141.4 64 20)
+
+```{r}
+L1 <-  0.2916651%*%(63) + 0.1120130%*%(141.4) + 0.6792672%*%(64) + 0.07939680%*%(220) - 45.52791  
+L2 <-  0.3555073%*%(63) + 0.1287796%*%(141.4) + 0.7809797%*%(64) + 0.07280753%*%(220) - 57.05103  
+L3 <-  0.4457149%*%(63) + 0.1350911%*%(141.4) + 0.8384779%*%(64) + 0.0634611%*%(220) - 65.63240  
+
+L1 
+L2 
+L3
+```
+
+For a single observation, the linear classification function with the greatest returned value is considered to be assigned to that group. For the first observation, the first linear classification function returned the greatest value of 49.626, indicating that the observation be correctly classified as part of Group 1.
+
+This is very similar to the values of other functions L2 and L3 (49.556 and 49.174 respectively), which could indicate a large amount of noise in the data. Non-linear classification functions might explain separation of groups better if further analysis were to be conducted.
+
+## Confusion Matrix
+
+```{r}
+rates <- function(data,group,method="l") {   
+  if (!require("MASS")) install.packages("MASS")   
+  library(MASS)   
+  data <- as.matrix(data)   
+  group <- as.matrix(group)   
+  da.obj <- lda(data,group)   
+  if (method=="q") {     
+    da.obj <- qda(data,group)     
+    method <- "QDA"   }   
+  tab <- table(original=group,predicted=predict(da.obj)$class)   
+  if (method=="l") method <- "LDA"   
+  cor.rate <- sum(predict(da.obj)$class==group)/nrow(data)   
+  er.rate <- 1-cor.rate   
+  return(list("Correct Class Rate"=cor.rate,"Error Rate"=er.rate,               
+              "Method"=method,"Confusion Matrix"=tab
+              )) 
+  }  
+
+rates(data[,-1], data[,1])
+```
+
+ACCR = 63.64%
+
+AER = 36.36%
+
+The linear classification functions are classifying the majority of observations correctly (64%), but there is some classification error (36%). This supports earlier conclusions of high noise within the data leading to some incorrectly classified observations.
