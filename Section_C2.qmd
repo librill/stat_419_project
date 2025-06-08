@@ -201,7 +201,7 @@ Using an adjusted signficiance level of $\alpha^* = \frac{0.05} {2} = 0.025$, we
 - $H_a$: At least one $\boldsymbol{\alpha_i} \neq \boldsymbol{0}$
 
 
-For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the `SBPRANK` groups.
+For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We therefore reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the `SBPRANK` groups.
 
  - $H_0$: $\boldsymbol{\alpha_2} = \boldsymbol{0}$
  - $H_a$: $\boldsymbol{\alpha_2} \neq \boldsymbol{0}$
@@ -214,27 +214,27 @@ For the second test, the p-value is 0.0382, which is greater than the adjusted s
 partial.F(X, y)
 ```
 
-Using the same adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for multiple comparisons, we assess the significance of each non-grouping variable after adjusting for the presence of the others.
+Using the an adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for the presence of other non-grouping variables, we assess the significance of each non-grouping variable.
 
-- $H_0$: HSAGEIR does not contribute to group separation beyond the other variables.
+- $H_0$: HSAGEIR does not contribute to group separation after accounting for the other variables.
 - $H_a$: HSAGEIR contributes significantly to group separation.
 
-For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.
+For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.
 
-- $H_0$: PEPMNK5R does not contribute to group separation beyond the other variables.
+- $H_0$: PEPMNK5R does not contribute to group separation after accounting for the other variables.
 - $H_a$: PEPMNK5R contributes significantly to group separation.
 
-For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.
+For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We therefore reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.
 
-- $H_0$: BMPWTLBS does not contribute to group separation beyond the other variables.
+- $H_0$: BMPWTLBS does not contribute to group separation after accounting for the other variables.
 - $H_a$: BMPWTLBS contributes significantly to group separation.
 
-For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.
+For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.
 
-- $H_0$: TCP does not contribute to group separation beyond the other variables.
+- $H_0$: TCP does not contribute to group separation after accounting for the other variables.
 - $H_a$: TCP contributes significantly to group separation.
 
-For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.
+For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We therefore fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.
 
 
 ### Visualizing Discriminant Functions
