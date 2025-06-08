@@ -1,0 +1,450 @@
+---
+title: "STAT 419 Course Project: NHANES"
+subtitle: "Group 5"
+format: pdf
+author: 
+    - name: Alex Ralston
+    - name: Delaney Siegmund
+    - name: Kaviya Veerasingam
+    - name: Libby Brill
+    - name: Tara Rajagopalan
+---
+
+```{r}
+#| message: false
+#| echo: false
+library(tidyverse)
+source("all_customized_functions.R")
+nhanes <- read.csv(here::here("NHANES3_419.csv"), header = TRUE)
+```
+
+\newpage
+
+# Section A: Introduction/Background
+The National Health and Nutritional Examination Survey provided information for this data set. The information was collected on adults who are at an age of 20 years or older between the years of 1988 and 1994.
+
+The goal of this data set is to provide the Blood Pressure Rank, measured by variable SBPRANK, for each subject in the Data Set. SBPRank is the grouping variable that is determined by average systolic blood pressure (AVGSBP). The values for SBPRank include 1,2, and 3. 1 is the lowest blood pressure rank indicated by low values of AVGSBP and 3 is the highest blood pressure rank indicated by high values of AVGSBP. 2 is the blood pressure ranking for average systolic blood pressure in the middle ranges.
+
+The other variables in the data set includes:
+
+- HSAGEIR: Subject age recorded in years.
+- BMPWTLBS: Subject body weight in pounds.
+- BMPHTIN: Subject standing height in inches.
+- PEPMNK5R: Subject average diastolic blood pressure
+- TCP: This is a measure of the Subject Serum Cholesterol.
+
+\newpage
+
+# Section B: Graphs and Summary Statistics
+
+#### HSAGEIR
+```{r}
+#| message: false
+#| echo: false
+
+nhanes |>
+  ggplot(aes(x = HSAGEIR)) +
+  geom_histogram() +
+  labs(x = "Age (years)", y = "Count", title = "Distribution of Ages") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$HSAGEIR), Median = median(nhanes$HSAGEIR),
+           `Standard Deviation` = sd(nhanes$HSAGEIR))
+```
+With a mean of 49.44 years, a median of 46 years, and a standard deviation of 18.52 years, the ages in the `nhanes` dataset range from 20 to 90 years old. The distribution of ages appears to be slightly right-skewed and bimodal, with peaks around 35 and 65 years.
+
+\newpage
+
+#### BMPWTLBS
+```{r}
+#| message: false
+#| echo: false
+
+nhanes |>
+  ggplot(aes(x = BMPWTLBS)) +
+  geom_histogram() +
+  labs(x = "Body Weight (pounds)", y = "Count",
+       title = "Distribution of Body Weights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPWTLBS), Median = median(nhanes$BMPWTLBS),
+           `Standard Deviation` = sd(nhanes$BMPWTLBS))
+```
+With a mean of 167.57 pounds, a median of 163 pounds, and a standard deviation of 37.55 pounds, the body weights in the `nhanes` dataset range from roughly 80 to 300 pounds. The distribution of body weights appears to be unimodal and slightly right-skewed, with some potential outliers in both directions.
+
+\newpage
+
+#### BMPHTIN
+```{r}
+#| message: false
+#| echo: false
+
+nhanes |>
+  ggplot(aes(x = BMPHTIN)) +
+  geom_histogram() +
+  labs(x = "Standing Height (inches)", y = "Count",
+       title = "Distribution of Standing Heights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPHTIN), Median = median(nhanes$BMPHTIN),
+           `Standard Deviation` = sd(nhanes$BMPHTIN))
+```
+With a mean of 66.69 inches, a median of 67.2 inches, and a standard deviation of 3.82 inches, the standing heights in the `nhanes` dataset range from roughly 55 to 80 inches. The distribution of standing heights appears to be unimodal and fairly symmetric (perhaps slightly left-skewed), with some potential higher outliers.
+
+\newpage
+
+#### PEPMNK5R
+```{r}
+#| message: false
+#| echo: false
+
+nhanes |>
+  ggplot(aes(x = PEPMNK5R)) +
+  geom_histogram() +
+  labs(x = "Average Diastolic BP (mm Hg)", y = "Count",
+       title = "Distribution of Average Diastolic BP's") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$PEPMNK5R), Median = median(nhanes$PEPMNK5R),
+           `Standard Deviation` = sd(nhanes$PEPMNK5R))
+```
+With a mean of 74.91 mm Hg, a median of 75 mg Hg, and a standard deviation of 11.79, the average diastolic bp in the `nhanes` dataset range from roughly 35 to 135 mm Hg. The distribution of average diastolic bps appears to be unimodal and fairly symmetric, with some clear outliers in the 130's.
+
+\newpage
+
+#### TCP
+```{r}
+#| message: false
+#| echo: false
+
+nhanes |>
+  ggplot(aes(x = TCP)) +
+  geom_histogram() +
+  labs(x = "Serum Cholesterol (mg/100ml)", y = "Count",
+       title = "Distribution of Serum Cholesterol") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$TCP), Median = median(nhanes$TCP),
+           `Standard Deviation` = sd(nhanes$TCP))
+```
+With a mean of 205.63 mg/100ml, a median of 203 mg/100ml, and a standard deviation of 40.30, the serum cholesterols in the `nhanes` dataset range from roughly 110 to 300 mg/100ml. The distribution of serum cholesterols appears to be roughly unimodal (with a slight drop in the 200's) and slightly right-skewed, with no clear outliers.
+
+\newpage
+
+# Section C: Discriminant and Classification Analysis
+
+## C.1: Correlated Quantitative Variables (Multicollinearity)
+The Correlation Coefficient Tables for between quantitative variables in the NHANES data set are below:
+```{r}
+#| echo: false
+NHANESData <- nhanes |>
+  select(-1)
+
+cor(NHANESData)
+```
+The Scatter Plots representing correlations between the quantitative variables in the NHANES data set are below:
+```{r}
+#| echo: false
+
+plot(NHANESData)
+```
+
+\newpage
+
+## C.2: Discriminant Analysis
+```{r}
+#| echo: false
+
+nhanes_c2 <- nhanes
+nhanes_c2$SBPRANK <- as.factor(nhanes$SBPRANK)
+
+# Omit height variable
+nhanes_c2 <- nhanes_c2[, c("SBPRANK", "HSAGEIR", "BMPWTLBS", "PEPMNK5R", "TCP")]
+
+X <- nhanes_c2[, -1]
+y <- nhanes_c2[, 1]
+
+discrim(X, y)$a.stand
+```
+Let:
+
+-   $y_1 = \text{HSAGEIR (Age) (variable 2)}$
+-   $y_2 = \text{BMPWTLBS (Body Weight) (variable 3)}$
+-   $y_3 = \text{PEPMNK5R (Average Diastolic BP) (variable 5)}$
+-   $y_4 = \text{TCP (Serum Cholesterol) (variable 6)}$
+
+Then the standardized discriminant functions are:
+$$
+\begin{aligned}
+LD_1(y) &= -10.784 y_1 - 3.772 y_2 - 7.755 y_3 + 2.881 y_4 \\\\
+LD_2(y) &= -8.678 y_1 + 7.113 y_2 + 8.770 y_3 + 2.342 y_4
+\end{aligned}
+$$
+We now rank the standardized coefficients of each discriminant function, $LD_1$ and $LD_2$, by observing their absolute values.
+
+For the first discriminant function ($LD_1$), $y_1$ (age) and $y_3$ (average diastolic BP) are the most important for separating the groups, followed by $y_2$ (body weight) and $y_4$ (cholesterol): $y_1 \rightarrow y_3 \rightarrow y_2 \rightarrow y_4$.
+
+For the second discriminant function ($LD_2$), $y_3$, $y_1$, and $y_2$ are the most important, followed by $y_4$: $y_3 \rightarrow y_1 \rightarrow y_2 \rightarrow y_4$.
+
+### Significance Tests for Discriminant Functions
+
+```{r}
+#| echo: false
+
+discr.sig(X, y)
+```
+
+**Hypotheses:**
+
+-   1st Test (for $LD_1$):
+    -   $H_0$: $\boldsymbol{\alpha_1} = \boldsymbol{\alpha_2} = \boldsymbol{0}$
+    -   $H_a$: At least one $\boldsymbol{\alpha_i} \neq \boldsymbol{0}$
+-   2nd Test (for $LD_2$):
+    -   $H_0$: $\boldsymbol{\alpha_2} = \boldsymbol{0}$
+    -   $H_a$: $\boldsymbol{\alpha_2} \neq \boldsymbol{0}$
+
+**Conclusions:**
+
+-   blabla..
+
+### Significance Tests for Additional Variables
+
+```{r}
+#| echo: false
+
+partial.F(X, y)
+```
+
+### Visualizing Discriminant Functions
+
+```{r}
+#| echo: false
+
+discr.plot(X, y)
+```
+
+\newpage
+
+## C.3: Classification Analysis
+
+### Four most significant variables
+```{r}
+#| message: false
+#| echo: false
+
+nhanes_c3 <- nhanes  
+# Omit height 
+data <- nhanes_c3[,-4]
+```
+
+### Classification Analysis
+```{r}
+#| message: false
+#| echo: false
+
+lin.class(data[,-1], data[,1])
+```
+
+Given:
+
+- y~1~ = Age (Variable 2)
+- y~2~ = Body Weight (Variable 3)
+- y~3~ = Average Diastolic BP (Variable 5)
+- y~4~ = Serum Cholesterol (Variable 6)
+
+Then:
+$$
+L_{1}(y) = 0.292y_{1} + 0.112y_{2} + 0.679y_{3} + 0.079y_{4} - 45.528
+$$
+$$
+L_{2}(y) = 0.356y_{1} + 0.129y_{2} + 0.781y_{3} + 0.073y_{4} - 57.051
+$$
+$$
+L_{3}(y) = 0.446y_{1} + 0.135y_{2} + 0.838y_{3} + 0.063y_{4} - 65.632
+$$
+
+Assign to G~1~, G~2~, or G~3~ depending on if L~1~(y), L~2~(y), or L~3~(y) respectively yields the greatest value for a given observation.
+
+### Apply Classification to Observation 1
+
+Observation 1, eliminating height:
+
+nhanes(1)'= (63 141.4 64 20)
+
+```{r}
+#| echo: false
+
+L1 <-  0.2916651%*%(63) + 0.1120130%*%(141.4) + 0.6792672%*%(64) + 0.07939680%*%(220) - 45.52791  
+L2 <-  0.3555073%*%(63) + 0.1287796%*%(141.4) + 0.7809797%*%(64) + 0.07280753%*%(220) - 57.05103  
+L3 <-  0.4457149%*%(63) + 0.1350911%*%(141.4) + 0.8384779%*%(64) + 0.0634611%*%(220) - 65.63240  
+
+L1 
+L2 
+L3
+```
+
+For a single observation, the linear classification function with the greatest returned value is considered to be assigned to that group. For the first observation, the first linear classification function returned the greatest value of 49.626, indicating that the observation be correctly classified as part of Group 1.
+
+This is very similar to the values of other functions L~2~(y) and L~3~(y) (49.556 and 49.174 respectively), which could indicate a large amount of noise in the data. Non-linear classification functions might explain separation of groups better if further analysis were to be conducted.
+
+### Confusion Matrix
+```{r}
+#| echo: false
+
+rates(data[,-1], data[,1])
+```
+
+ACCR = 63.64%
+
+AER = 36.36%
+
+The linear classification functions are classifying the majority of observations correctly (64%), but there is some classification error (36%). This supports earlier conclusions of high noise within the data leading to some incorrectly classified observations.
+
+\newpage
+
+# Section D: Summary
+
+\newpage
+
+# Section E: R Code
+
+### Setup
+```{r}
+#| eval: false
+
+library(tidyverse)
+source("all_customized_functions.R")
+nhanes <- read.csv(here::here("NHANES3_419.csv"), header = TRUE)
+```
+
+### Section B
+```{r}
+#| eval: false
+#| message: false
+
+# HSAGEIR
+nhanes |>
+  ggplot(aes(x = HSAGEIR)) +
+  geom_histogram() +
+  labs(x = "Age (years)", y = "Count", title = "Distribution of Ages") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$HSAGEIR), Median = median(nhanes$HSAGEIR),
+           `Standard Deviation` = sd(nhanes$HSAGEIR))
+
+# BMPWTLBS
+nhanes |>
+  ggplot(aes(x = BMPWTLBS)) +
+  geom_histogram() +
+  labs(x = "Body Weight (pounds)", y = "Count",
+       title = "Distribution of Body Weights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPWTLBS), Median = median(nhanes$BMPWTLBS),
+           `Standard Deviation` = sd(nhanes$BMPWTLBS))
+
+# BMPHTIN
+nhanes |>
+  ggplot(aes(x = BMPHTIN)) +
+  geom_histogram() +
+  labs(x = "Standing Height (inches)", y = "Count",
+       title = "Distribution of Standing Heights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPHTIN), Median = median(nhanes$BMPHTIN),
+           `Standard Deviation` = sd(nhanes$BMPHTIN))
+
+# PEPMNK5R
+nhanes |>
+  ggplot(aes(x = PEPMNK5R)) +
+  geom_histogram() +
+  labs(x = "Average Diastolic BP (mm Hg)", y = "Count",
+       title = "Distribution of Average Diastolic BP's") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$PEPMNK5R), Median = median(nhanes$PEPMNK5R),
+           `Standard Deviation` = sd(nhanes$PEPMNK5R))
+
+# TCP
+nhanes |>
+  ggplot(aes(x = TCP)) +
+  geom_histogram() +
+  labs(x = "Serum Cholesterol (mg/100ml)", y = "Count",
+       title = "Distribution of Serum Cholesterol") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$TCP), Median = median(nhanes$TCP),
+           `Standard Deviation` = sd(nhanes$TCP))
+```
+
+### Section C1
+```{r}
+#| eval: false
+#| message: false
+
+NHANESData <- nhanes |>
+  select(-1)
+
+# correlation table
+cor(NHANESData)
+
+# scatter plot
+plot(NHANESData)
+```
+
+
+### Section C2
+```{r}
+#| eval: false
+#| message: false
+
+nhanes_c2 <- nhanes
+nhanes_c2$SBPRANK <- as.factor(nhanes$SBPRANK)
+# Omit height variable
+nhanes_c2 <- nhanes_c2[, c("SBPRANK", "HSAGEIR", "BMPWTLBS",
+                           "PEPMNK5R", "TCP")]
+
+X <- nhanes_c2[, -1]
+y <- nhanes_c2[, 1]
+
+# discriminant analysis
+discrim(X, y)$a.stand
+
+# significance tests for discriminant functions
+discr.sig(X, y)
+
+# significance tests for additional variables
+partial.F(X, y)
+
+# visualizing discriminant functions
+discr.plot(X, y)
+```
+
+### Section C3
+```{r}
+#| eval: false
+#| message: false
+
+nhanes_c3 <- nhanes  
+# Omit height 
+data <- nhanes_c3[,-4]
+
+# classification analysis
+lin.class(data[,-1], data[,1])
+
+# apply classification to observation 1
+L1 <-  0.2916651%*%(63) + 0.1120130%*%(141.4) + 0.6792672%*%(64)
++ 0.07939680%*%(220) - 45.52791  
+L2 <-  0.3555073%*%(63) + 0.1287796%*%(141.4) + 0.7809797%*%(64)
++ 0.07280753%*%(220) - 57.05103  
+L3 <-  0.4457149%*%(63) + 0.1350911%*%(141.4) + 0.8384779%*%(64)
++ 0.0634611%*%(220) - 65.63240  
+
+L1 
+L2 
+L3
+
+# confusion matrix
+rates(data[,-1], data[,1])
+```
+
