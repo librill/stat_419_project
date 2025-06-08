@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-06-04">
+<meta name="dcterms.date" content="2025-06-08">
 
 <title>Section C.2</title>
 <style>
@@ -128,7 +128,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 4, 2025</p>
+      <p class="date">June 8, 2025</p>
     </div>
   </div>
   
@@ -333,23 +333,17 @@ LD1 0.4856068 147.721810 0.00000000
 LD2 0.9596942   8.413261 0.03820007</code></pre>
 </div>
 </div>
-<p><strong>Hypotheses:</strong></p>
-<ul>
-<li>1st Test (for <span class="math inline">\(LD_1\)</span>):
+<p>Using an adjusted signficiance level of <span class="math inline">\(\alpha^* = \frac{0.05} {2} = 0.025\)</span>, we assess the significance of each discriminant function.</p>
 <ul>
 <li><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\boldsymbol{\alpha_1} = \boldsymbol{\alpha_2} = \boldsymbol{0}\)</span></li>
 <li><span class="math inline">\(H_a\)</span>: At least one <span class="math inline">\(\boldsymbol{\alpha_i} \neq \boldsymbol{0}\)</span></li>
-</ul></li>
-<li>2nd Test (for <span class="math inline">\(LD_2\)</span>):
+</ul>
+<p>For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the <code>SBPRANK</code> groups.</p>
 <ul>
 <li><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\boldsymbol{\alpha_2} = \boldsymbol{0}\)</span></li>
 <li><span class="math inline">\(H_a\)</span>: <span class="math inline">\(\boldsymbol{\alpha_2} \neq \boldsymbol{0}\)</span></li>
-</ul></li>
 </ul>
-<p><strong>Conclusions:</strong></p>
-<ul>
-<li>blabla..</li>
-</ul>
+<p>For the second test, the p-value is 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that <span class="math inline">\(LD_2\)</span> does not provide significant additional separation beyond <span class="math inline">\(LD_1\)</span>.</p>
 </section>
 <section id="significance-tests-for-additional-variables" class="level3">
 <h3 class="anchored" data-anchor-id="significance-tests-for-additional-variables">Significance Tests for Additional Variables</h3>
@@ -366,22 +360,44 @@ BMPWTLBS 0.9344024  7.125580 1.021397e-03
 TCP      0.9679940  3.356017 3.681948e-02</code></pre>
 </div>
 </div>
+<p>Using the same adjusted significance level of <span class="math inline">\(\alpha^* = \frac{0.05}{4} = 0.0125\)</span> to account for multiple comparisons, we assess the significance of each non-grouping variable after adjusting for the presence of the others.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: HSAGEIR does not contribute to group separation beyond the other variables.</li>
+<li><span class="math inline">\(H_a\)</span>: HSAGEIR contributes significantly to group separation.</li>
+</ul>
+<p>For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: PEPMNK5R does not contribute to group separation beyond the other variables.</li>
+<li><span class="math inline">\(H_a\)</span>: PEPMNK5R contributes significantly to group separation.</li>
+</ul>
+<p>For PEPMNK5R (average diastolic blood pressure), the p-value is approximately <span class="math inline">\(1.76 \times 10^{-12}\)</span>, which is also far below the adjusted threshold. We reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: BMPWTLBS does not contribute to group separation beyond the other variables.</li>
+<li><span class="math inline">\(H_a\)</span>: BMPWTLBS contributes significantly to group separation.</li>
+</ul>
+<p>For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: TCP does not contribute to group separation beyond the other variables.</li>
+<li><span class="math inline">\(H_a\)</span>: TCP contributes significantly to group separation.</li>
+</ul>
+<p>For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.</p>
 </section>
 <section id="visualizing-discriminant-functions" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-discriminant-functions">Visualizing Discriminant Functions</h3>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">discr.plot</span>(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Section_C2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Section_C2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the <span class="math inline">\(LD_1\)</span> axis, there appears to be greater separation of groups 1 and 3, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along <span class="math inline">\(LD_2\)</span>’s axis is comparatively limited.</p>
 <!-- -->
 
 </section>
@@ -1057,34 +1073,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a><span class="fu">discr.sig</span>(X, y)</span>
 <span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a>**Hypotheses:**</span>
-<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1st Test (for $LD_1$):</span>
-<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$H_0$: $\boldsymbol{\alpha_1} = \boldsymbol{\alpha_2} = \boldsymbol{0}$</span>
-<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$H_a$: At least one $\boldsymbol{\alpha_i} \neq \boldsymbol{0}$</span>
-<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>2nd Test (for $LD_2$):</span>
-<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$H_0$: $\boldsymbol{\alpha_2} = \boldsymbol{0}$</span>
-<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$H_a$: $\boldsymbol{\alpha_2} \neq \boldsymbol{0}$</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>Using an adjusted signficiance level of $\alpha^* = \frac{0.05} {2} = 0.025$, we assess the significance of each discriminant function.</span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_0$: $\boldsymbol{\alpha_1} = \boldsymbol{\alpha_2} = \boldsymbol{0}$</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_a$: At least one $\boldsymbol{\alpha_i} \neq \boldsymbol{0}$</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the <span class="in">`SBPRANK`</span> groups.</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>$H_0$: $\boldsymbol{\alpha_2} = \boldsymbol{0}$</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>$H_a$: $\boldsymbol{\alpha_2} \neq \boldsymbol{0}$</span>
 <span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>**Conclusions:**</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>For the second test, the p-value is 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that $LD_2$ does not provide significant additional separation beyond $LD_1$.</span>
 <span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>blabla..</span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significance Tests for Additional Variables</span></span>
 <span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significance Tests for Additional Variables</span></span>
-<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a><span class="fu">partial.F</span>(X, y)</span>
-<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a><span class="fu">partial.F</span>(X, y)</span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a>Using the same adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for multiple comparisons, we assess the significance of each non-grouping variable after adjusting for the presence of the others.</span>
 <span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing Discriminant Functions</span></span>
-<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="fu">discr.plot</span>(X, y)</span>
-<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_0$: HSAGEIR does not contribute to group separation beyond the other variables.</span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_a$: HSAGEIR contributes significantly to group separation.</span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a>For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.</span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_0$: PEPMNK5R does not contribute to group separation beyond the other variables.</span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_a$: PEPMNK5R contributes significantly to group separation.</span>
 <span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.</span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_0$: BMPWTLBS does not contribute to group separation beyond the other variables.</span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_a$: BMPWTLBS contributes significantly to group separation.</span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.</span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_0$: TCP does not contribute to group separation beyond the other variables.</span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$H_a$: TCP contributes significantly to group separation.</span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a>For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.</span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing Discriminant Functions</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=8, fig.width=10, fig.align="center"}</span></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a><span class="in">discr.plot(X, y)</span></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a>The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $LD_1$ axis, there appears to be greater separation of groups 1 and 3, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $LD_2$'s axis is comparatively limited.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
