@@ -1,5 +1,93 @@
 ---
-title: "Section_B"
+title: "Section B"
 format: html
 ---
 
+```{r}
+#| message: false
+
+library(tidyverse)
+
+nhanes <- read.csv(here::here("NHANES3_419.csv"), header = TRUE)
+```
+
+
+```{r}
+#| message: false
+
+# HSAGEIR
+nhanes |>
+  ggplot(aes(x = HSAGEIR)) +
+  geom_histogram() +
+  labs(x = "Age (years)", y = "Count", title = "Distribution of Ages") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$HSAGEIR), Median = median(nhanes$HSAGEIR),
+           `Standard Deviation` = sd(nhanes$HSAGEIR))
+```
+With a mean of 49.44 years, a median of 46 years, and a standard deviation of 18.52 years, the ages in the `nhanes` dataset range from 20 to 90 years old. The distribution of ages appears to be slightly right-skewed and bimodal, with peaks around 35 and 65 years.
+
+```{r}
+#| message: false
+
+# BMPWTLBS
+nhanes |>
+  ggplot(aes(x = BMPWTLBS)) +
+  geom_histogram() +
+  labs(x = "Body Weight (pounds)", y = "Count",
+       title = "Distribution of Body Weights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPWTLBS), Median = median(nhanes$BMPWTLBS),
+           `Standard Deviation` = sd(nhanes$BMPWTLBS))
+```
+With a mean of 167.57 pounds, a median of 163 pounds, and a standard deviation of 37.55 pounds, the body weights in the `nhanes` dataset range from roughly 80 to 300 pounds. The distribution of body weights appears to be unimodal and slightly right-skewed, with some potential outliers in both directions.
+
+```{r}
+#| message: false
+
+# BMPHTIN
+nhanes |>
+  ggplot(aes(x = BMPHTIN)) +
+  geom_histogram() +
+  labs(x = "Standing Height (inches)", y = "Count",
+       title = "Distribution of Standing Heights") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$BMPHTIN), Median = median(nhanes$BMPHTIN),
+           `Standard Deviation` = sd(nhanes$BMPHTIN))
+```
+With a mean of 66.69 inches, a median of 67.2 inches, and a standard deviation of 3.82 inches, the standing heights in the `nhanes` dataset range from roughly 55 to 80 inches. The distribution of standing heights appears to be unimodal and fairly symmetric (perhaps slightly left-skewed), with some potential higher outliers.
+
+
+```{r}
+#| message: false
+
+# PEPMNK5R
+nhanes |>
+  ggplot(aes(x = PEPMNK5R)) +
+  geom_histogram() +
+  labs(x = "Average Diastolic BP (mm Hg)", y = "Count",
+       title = "Distribution of Average Diastolic BP's") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$PEPMNK5R), Median = median(nhanes$PEPMNK5R),
+           `Standard Deviation` = sd(nhanes$PEPMNK5R))
+```
+With a mean of 74.91 mm Hg, a median of 75 mg Hg, and a standard deviation of 11.79, the average diastolic bp in the `nhanes` dataset range from roughly 35 to 135 mm Hg. The distribution of average diastolic bps appears to be unimodal and fairly symmetric, with some clear outliers in the 130's.
+
+```{r}
+#| message: false
+
+# TCP
+nhanes |>
+  ggplot(aes(x = TCP)) +
+  geom_histogram() +
+  labs(x = "Serum Cholesterol (mg/100ml)", y = "Count",
+       title = "Distribution of Serum Cholesterol") +
+  theme_bw()
+
+data.frame(Mean = mean(nhanes$TCP), Median = median(nhanes$TCP),
+           `Standard Deviation` = sd(nhanes$TCP))
+```
+With a mean of 205.63 mg/100ml, a median of 203 mg/100ml, and a standard deviation of 40.30, the serum cholesterols in the `nhanes` dataset range from roughly 110 to 300 mg/100ml. The distribution of serum cholesterols appears to be roughly unimodal (with a slight drop in the 200's) and slightly right-skewed, with no clear outliers.
