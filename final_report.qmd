@@ -137,16 +137,14 @@ With a mean of 205.63 mg/100ml, a median of 203 mg/100ml, and a standard deviati
 The Correlation Coefficient Tables for between quantitative variables in the NHANES data set are below:
 ```{r}
 #| echo: false
-NHANESData <- nhanes |>
-  select(-1)
 
-cor(NHANESData)
+cor(nhanes[, -1])
 ```
 The Scatter Plots representing correlations between the quantitative variables in the NHANES data set are below:
 ```{r}
 #| echo: false
 
-plot(NHANESData)
+plot(nhanes[, -1])
 ```
 
 \newpage
