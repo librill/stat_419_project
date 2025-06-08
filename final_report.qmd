@@ -391,14 +391,11 @@ data.frame(Mean = mean(nhanes$TCP), Median = median(nhanes$TCP),
 #| eval: false
 #| message: false
 
-NHANESData <- nhanes |>
-  select(-1)
-
 # correlation table
-cor(NHANESData)
+cor(nhanes[, -1])
 
 # scatter plot
-plot(NHANESData)
+plot(nhanes[, -1])
 ```
 
 
