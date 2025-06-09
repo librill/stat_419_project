@@ -147,6 +147,8 @@ The Scatter Plots representing correlations between the quantitative variables i
 plot(nhanes[, -1])
 ```
 
+The correlation between height and weight is the highest, with the value of 0.48. Therefore, we decided to exclude the height variable from analysis in parts C2 and C3. The rest of the correlation coefficients between the remaining variables have low values between -0.1 and 0.2, thus they are included in analysis for parts C2 and C3.
+
 \newpage
 
 ## C.2: Discriminant Analysis
