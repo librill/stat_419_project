@@ -194,17 +194,17 @@ For the second discriminant function ($L_2$), $y_3$, $y_1$, and $y_2$ are the mo
 
 discr.sig(X, y)
 ```
-Using an adjusted signficiance level of $\alpha^* = \frac{0.05} {2} = 0.025$, we assess the significance of each discriminant function.
+Using an adjusted significance level of $\alpha^* = \frac{0.05} {2} = 0.025$, we assess the significance of each discriminant function.
 
 -   $H_0$: $\pmb{\alpha_1} = \pmb{\alpha_2} = \textbf{0}$
 -   $H_a$: At least one $\pmb{\alpha_i} \neq \textbf{0}$
 
-For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We therefore reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the `SBPRANK` groups.
+The first test yields a test statistic of 0.486 and a p-value that is well below the adjusted significance level. We therefore reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the SBPRANK groups.
 
 -   $H_0$: $\pmb{\alpha_2} = \textbf{0}$
 -   $H_a$: $\pmb{\alpha_2} \neq \textbf{0}$
 
-For the second test, the p-value is 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that $LD_2$ does not provide significant additional separation beyond $LD_1$.
+The second test yields a test statistic of 0.96 and a p-value of 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that $LD_2$ does not provide significant additional group separation beyond $LD_1$.
 
 ### Significance Tests for Additional Variables
 ```{r}
@@ -212,27 +212,27 @@ For the second test, the p-value is 0.0382, which is greater than the adjusted s
 
 partial.F(X, y)
 ```
-Using the an adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for the presence of other non-grouping variables, we assess the significance of each non-grouping variable.
+Using an adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for the presence of other non-grouping variables, we assess the significance of each non-grouping variable.
 
--   $H_0$: HSAGEIR does not contribute to group separation after accounting for the other variables.
--   $H_a$: HSAGEIR contributes significantly to group separation.
+-   $H_0$: HSAGEIR does not contribute to group separation, adjusting for the remaining variables.
+-   $H_a$: HSAGEIR contributes to group separation, adjusting for the remaining variables.
 
-For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.
+For HSAGEIR (age), the test statistic is 0.605 with a p-value well below the adjusted significance level. We therefore reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups after adjusting for the other variables.
 
--   $H_0$: PEPMNK5R does not contribute to group separation after accounting for the other variables.
--   $H_a$: PEPMNK5R contributes significantly to group separation.
+-   $H_0$: PEPMNK5R does not contribute to group separation, adjusting for the remaining variables.
+-   $H_a$: PEPMNK5R contributes to group separation, adjusting for the remaining variables.
 
-For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We therefore reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.
+For PEPMNK5R (average diastolic blood pressure), the test-statistic is 0.766 with a p-value of approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold of 0.0125. We therefore reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation after adjusting for the other variables.
 
--   $H_0$: BMPWTLBS does not contribute to group separation after accounting for the other variables.
--   $H_a$: BMPWTLBS contributes significantly to group separation.
+-   $H_0$: BMPWTLBS does not contribute to group separation, adjusting for the remaining variables.
+-   $H_a$: BMPWTLBS contributes to group separation, adjusting for the remaining variables.
 
-For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.
+For BMPWTLBS (body weight), the test-statistic is 0.934 with a p-value of 0.00102, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups after adjusting for the other variables.
 
--   $H_0$: TCP does not contribute to group separation after accounting for the other variables.
--   $H_a$: TCP contributes significantly to group separation.
+-   $H_0$: TCP does not contribute to group separation, adjusting for the remaining variables.
+-   $H_a$: TCP contributes to group separation, adjusting for the remaining variables.
 
-For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We therefore fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.
+For TCP (serum cholesterol), the test-statistic is 0.968 with a p-value of 0.0368, which exceeds the adjusted significance level of 0.0125. We therefore fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after adjusting for the other variables.
 
 ### Visualizing Discriminant Functions
 ```{r, fig.height=8, fig.width=10, fig.align="center"}
@@ -241,7 +241,7 @@ For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted s
 discr.plot(X, y)
 ```
 
-The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $L_1$ axis, there appears to be greater separation of groups 1 and 3, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $L_2$'s axis is comparatively limited.
+The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $L_1$ axis, there appears to be good separation of groups 1 and 3 in particular, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $L_2$'s axis is comparatively limited.
 
 \newpage
 
