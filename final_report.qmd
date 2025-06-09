@@ -1,7 +1,10 @@
 ---
 title: "STAT 419 Course Project: NHANES"
 subtitle: "Group 5"
-format: pdf
+format:
+  pdf:
+    linestretch: 2
+    toc: true
 author: 
     - name: Alex Ralston
     - name: Delaney Siegmund
@@ -153,7 +156,7 @@ The correlation between height and weight is the highest, with the value of 0.48
 
 ## C.2: Discriminant Analysis
 
-### Discriminant Functions and Variable Importance
+#### Discriminant Functions and Variable Importance
 ```{r}
 #| echo: false
 
@@ -178,7 +181,7 @@ Let:
 Then the standardized discriminant functions are:
 $$
 \begin{aligned}
-L_1(\textbf{y}) &= -10.784 y_1 - 3.772 y_2 - 7.755 y_3 + 2.881 y_4 \\\\
+L_1(\textbf{y}) &= -10.784 y_1 - 3.772 y_2 - 7.755 y_3 + 2.881 y_4 \\
 L_2(\textbf{y}) &= 8.678 y_1 - 7.113 y_2 - 8.770 y_3 - 2.342 y_4
 \end{aligned}
 $$
@@ -188,7 +191,7 @@ For the first discriminant function ($L_1$), $y_1$ (age) and $y_3$ (average dias
 
 For the second discriminant function ($L_2$), $y_3$, $y_1$, and $y_2$ are the most important, followed by $y_4$: $y_3 \rightarrow y_1 \rightarrow y_2 \rightarrow y_4$.
 
-### Significance Tests for Discriminant Functions
+#### Significance Tests for Discriminant Functions
 ```{r}
 #| echo: false
 
@@ -206,7 +209,7 @@ The first test yields a test statistic of 0.486 and a p-value that is well below
 
 The second test yields a test statistic of 0.96 and a p-value of 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that $LD_2$ does not provide significant additional group separation beyond $LD_1$.
 
-### Significance Tests for Additional Variables
+#### Significance Tests for Additional Variables
 ```{r}
 #| echo: false
 
@@ -234,11 +237,13 @@ For BMPWTLBS (body weight), the test-statistic is 0.934 with a p-value of 0.0010
 
 For TCP (serum cholesterol), the test-statistic is 0.968 with a p-value of 0.0368, which exceeds the adjusted significance level of 0.0125. We therefore fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after adjusting for the other variables.
 
-### Visualizing Discriminant Functions
+#### Visualizing Discriminant Functions
 ```{r, fig.height=8, fig.width=10, fig.align="center"}
 #| echo: false
 
 discr.plot(X, y)
+legend("topright", legend = as.character(unique(y)),
+       pch = 1:length(unique(y)))
 ```
 
 The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $L_1$ axis, there appears to be good separation of groups 1 and 3 in particular, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $L_2$'s axis is comparatively limited.
@@ -247,7 +252,7 @@ The above discriminant plot supports the results of our analysis, showing that t
 
 ## C.3: Classification Analysis
 
-### Four most significant variables
+#### Four most significant variables
 ```{r}
 #| message: false
 #| echo: false
@@ -257,7 +262,7 @@ nhanes_c3 <- nhanes
 data <- nhanes_c3[,-4]
 ```
 
-### Classification Analysis
+#### Classification Analysis
 ```{r}
 #| message: false
 #| echo: false
@@ -285,12 +290,10 @@ $$
 
 Assign to G~1~, G~2~, or G~3~ depending on if $L_1$, $L_2$, or $L_3$ respectively yields the greatest value for a given observation.
 
-### Apply Classification to Observation 1
-
+#### Apply Classification to Observation 1
 Observation 1, eliminating height:
 
 nhanes(1)'= (63 141.4 64 20)
-
 ```{r}
 #| echo: false
 
@@ -302,12 +305,11 @@ L1
 L2 
 L3
 ```
-
 For a single observation, the linear classification function with the greatest returned value is considered to be assigned to that group. For the first observation, the first linear classification function returned the greatest value of 49.626, indicating that the observation be correctly classified as part of Group 1.
 
 This is very similar to the values of other functions $L_2$ and $L_3$ (49.556 and 49.174 respectively), which could indicate a large amount of noise in the data. Non-linear classification functions might explain separation of groups better if further analysis were to be conducted.
 
-### Confusion Matrix
+#### Confusion Matrix
 ```{r}
 #| echo: false
 
@@ -339,7 +341,7 @@ One challenge was determining whether the correlation of 0.48 between height and
 
 # Section E: R Code
 
-### Setup
+#### Setup
 ```{r}
 #| eval: false
 
@@ -348,7 +350,7 @@ source("all_customized_functions.R")
 nhanes <- read.csv(here::here("NHANES3_419.csv"), header = TRUE)
 ```
 
-### Section B
+#### Section B
 ```{r}
 #| eval: false
 #| message: false
@@ -408,7 +410,7 @@ data.frame(Mean = mean(nhanes$TCP), Median = median(nhanes$TCP),
            `Standard Deviation` = sd(nhanes$TCP))
 ```
 
-### Section C1
+#### Section C1
 ```{r}
 #| eval: false
 #| message: false
@@ -421,7 +423,7 @@ plot(nhanes[, -1])
 ```
 
 
-### Section C2
+#### Section C2
 ```{r}
 #| eval: false
 #| message: false
@@ -446,9 +448,11 @@ partial.F(X, y)
 
 # visualizing discriminant functions
 discr.plot(X, y)
+legend("topright", legend = as.character(unique(y)),
+       pch = 1:length(unique(y)))
 ```
 
-### Section C3
+#### Section C3
 ```{r}
 #| eval: false
 #| message: false
