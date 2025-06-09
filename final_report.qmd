@@ -165,7 +165,6 @@ X <- nhanes_c2[, -1]
 y <- nhanes_c2[, 1]
 
 discrim(X, y)$a.stand
-
 ```
 Let:
 
@@ -177,15 +176,15 @@ Let:
 Then the standardized discriminant functions are:
 $$
 \begin{aligned}
-LD_1(y) &= -10.784 y_1 - 3.772 y_2 - 7.755 y_3 + 2.881 y_4 \\\\
-LD_2(y) &= -8.678 y_1 + 7.113 y_2 + 8.770 y_3 + 2.342 y_4
+L_1(\textbf{y}) &= -10.784 y_1 - 3.772 y_2 - 7.755 y_3 + 2.881 y_4 \\\\
+L_2(\textbf{y}) &= 8.678 y_1 - 7.113 y_2 - 8.770 y_3 - 2.342 y_4
 \end{aligned}
 $$
-We now rank the standardized coefficients of each discriminant function, $LD_1$ and $LD_2$, by observing their absolute values.
+We now rank the standardized coefficients of each discriminant function, $L_1$ and $L_2$, by observing their absolute values.
 
-For the first discriminant function ($LD_1$), $y_1$ (age) and $y_3$ (average diastolic BP) are the most important for separating the groups, followed by $y_2$ (body weight) and $y_4$ (cholesterol): $y_1 \rightarrow y_3 \rightarrow y_2 \rightarrow y_4$.
+For the first discriminant function ($L_1$), $y_1$ (age) and $y_3$ (average diastolic BP) are the most important for separating the groups, followed by $y_2$ (body weight) and $y_4$ (cholesterol): $y_1 \rightarrow y_3 \rightarrow y_2 \rightarrow y_4$.
 
-For the second discriminant function ($LD_2$), $y_3$, $y_1$, and $y_2$ are the most important, followed by $y_4$: $y_3 \rightarrow y_1 \rightarrow y_2 \rightarrow y_4$.
+For the second discriminant function ($L_2$), $y_3$, $y_1$, and $y_2$ are the most important, followed by $y_4$: $y_3 \rightarrow y_1 \rightarrow y_2 \rightarrow y_4$.
 
 ### Significance Tests for Discriminant Functions
 ```{r}
@@ -195,13 +194,13 @@ discr.sig(X, y)
 ```
 Using an adjusted signficiance level of $\alpha^* = \frac{0.05} {2} = 0.025$, we assess the significance of each discriminant function.
 
--   $H_0$: $\boldsymbol{\alpha_1} = \boldsymbol{\alpha_2} = \boldsymbol{0}$
--   $H_a$: At least one $\boldsymbol{\alpha_i} \neq \boldsymbol{0}$
+-   $H_0$: $\pmb{\alpha_1} = \pmb{\alpha_2} = \textbf{0}$
+-   $H_a$: At least one $\pmb{\alpha_i} \neq \textbf{0}$
 
-For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the `SBPRANK` groups.
+For the first test, the p-value is less than 0.0001, which is well below the adjusted significance level. We therefore reject the null hypothesis and conclude that at least one of the discriminant functions significantly separates the `SBPRANK` groups.
 
--   $H_0$: $\boldsymbol{\alpha_2} = \boldsymbol{0}$
--   $H_a$: $\boldsymbol{\alpha_2} \neq \boldsymbol{0}$
+-   $H_0$: $\pmb{\alpha_2} = \textbf{0}$
+-   $H_a$: $\pmb{\alpha_2} \neq \textbf{0}$
 
 For the second test, the p-value is 0.0382, which is greater than the adjusted significance level of 0.025. Therefore, we fail to reject the null hypothesis and conclude that $LD_2$ does not provide significant additional separation beyond $LD_1$.
 
@@ -211,37 +210,36 @@ For the second test, the p-value is 0.0382, which is greater than the adjusted s
 
 partial.F(X, y)
 ```
-Using the same adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for multiple comparisons, we assess the significance of each non-grouping variable after adjusting for the presence of the others.
+Using the an adjusted significance level of $\alpha^* = \frac{0.05}{4} = 0.0125$ to account for the presence of other non-grouping variables, we assess the significance of each non-grouping variable.
 
--   $H_0$: HSAGEIR does not contribute to group separation beyond the other variables.
+-   $H_0$: HSAGEIR does not contribute to group separation after accounting for the other variables.
 -   $H_a$: HSAGEIR contributes significantly to group separation.
 
-For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.
+For HSAGEIR (age), the p-value is less than 0.0001, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that age contributes significantly to the separation of SBPRANK groups.
 
--   $H_0$: PEPMNK5R does not contribute to group separation beyond the other variables.
+-   $H_0$: PEPMNK5R does not contribute to group separation after accounting for the other variables.
 -   $H_a$: PEPMNK5R contributes significantly to group separation.
 
-For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.
+For PEPMNK5R (average diastolic blood pressure), the p-value is approximately $1.76 \times 10^{-12}$, which is also far below the adjusted threshold. We therefore reject the null hypothesis and conclude that diastolic blood pressure significantly contributes to group separation.
 
--   $H_0$: BMPWTLBS does not contribute to group separation beyond the other variables.
+-   $H_0$: BMPWTLBS does not contribute to group separation after accounting for the other variables.
 -   $H_a$: BMPWTLBS contributes significantly to group separation.
 
-For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.
+For BMPWTLBS (body weight), the p-value is 0.00102, which is below the adjusted significance level. We therefore reject the null hypothesis and conclude that body weight contributes significantly to distinguishing between groups.
 
--   $H_0$: TCP does not contribute to group separation beyond the other variables.
+-   $H_0$: TCP does not contribute to group separation after accounting for the other variables.
 -   $H_a$: TCP contributes significantly to group separation.
 
-For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.
+For TCP (serum cholesterol), the p-value is 0.0368, which exceeds the adjusted significance level. We therefore fail to reject the null hypothesis and conclude that cholesterol does not provide a significant contribution to group separation after accounting for the other variables.
 
 ### Visualizing Discriminant Functions
-
 ```{r, fig.height=8, fig.width=10, fig.align="center"}
 #| echo: false
 
 discr.plot(X, y)
 ```
 
-The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $LD_1$ axis, there appears to be greater separation of groups 1 and 3, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $LD_2$'s axis is comparatively limited.
+The above discriminant plot supports the results of our analysis, showing that the first linear discriminant function provides clearer separation between the SBPRANK groups than the second. Most notably, along the $L_1$ axis, there appears to be greater separation of groups 1 and 3, corresponding to individuals with average systolic blood pressure less than or equal to 116 and those with values greater than 131, respectively. On the other hand, separation along $L_2$'s axis is comparatively limited.
 
 \newpage
 
@@ -274,16 +272,16 @@ Given:
 
 Then:
 $$
-L_{1}(y) = 0.292y_{1} + 0.112y_{2} + 0.679y_{3} + 0.079y_{4} - 45.528
+L_{1}(\textbf{y}) = 0.292y_{1} + 0.112y_{2} + 0.679y_{3} + 0.079y_{4} - 45.528
 $$
 $$
-L_{2}(y) = 0.356y_{1} + 0.129y_{2} + 0.781y_{3} + 0.073y_{4} - 57.051
+L_{2}(\textbf{y}) = 0.356y_{1} + 0.129y_{2} + 0.781y_{3} + 0.073y_{4} - 57.051
 $$
 $$
-L_{3}(y) = 0.446y_{1} + 0.135y_{2} + 0.838y_{3} + 0.063y_{4} - 65.632
+L_{3}(\textbf{y}) = 0.446y_{1} + 0.135y_{2} + 0.838y_{3} + 0.063y_{4} - 65.632
 $$
 
-Assign to G~1~, G~2~, or G~3~ depending on if L~1~(y), L~2~(y), or L~3~(y) respectively yields the greatest value for a given observation.
+Assign to G~1~, G~2~, or G~3~ depending on if $L_1$, $L_2$, or $L_3$ respectively yields the greatest value for a given observation.
 
 ### Apply Classification to Observation 1
 
@@ -305,7 +303,7 @@ L3
 
 For a single observation, the linear classification function with the greatest returned value is considered to be assigned to that group. For the first observation, the first linear classification function returned the greatest value of 49.626, indicating that the observation be correctly classified as part of Group 1.
 
-This is very similar to the values of other functions L~2~(y) and L~3~(y) (49.556 and 49.174 respectively), which could indicate a large amount of noise in the data. Non-linear classification functions might explain separation of groups better if further analysis were to be conducted.
+This is very similar to the values of other functions $L_2$ and $L_3$ (49.556 and 49.174 respectively), which could indicate a large amount of noise in the data. Non-linear classification functions might explain separation of groups better if further analysis were to be conducted.
 
 ### Confusion Matrix
 ```{r}
@@ -323,7 +321,7 @@ The linear classification functions are classifying the majority of observations
 \newpage
 
 # Section D: Summary
-In our analysis of the National Health and Nutrition Examination Survey, we analyzed the five variables measured on each subject of the survey, age, body weight (lbs), height (in), average diastolic blood pressure, and serum cholesterol. Using blood pressure rank - categorized into three groups (one, two, and three) - as the grouping variable, we performed discriminant and classification analysis.
+In our analysis of the National Health and Nutrition Examination Survey, we analyzed the five variables measured on each subject of the survey: age, body weight (lbs), height (in), average diastolic blood pressure, and serum cholesterol. Using blood pressure rank - categorized into three groups (one, two, and three) - as the grouping variable, we performed discriminant and classification analysis.
 
 In section B we found that while the ages of subjects from the survey range from 20 to 90, most were around the ages of 35 and 65 seen by the two bimodal peaks. The average weight across subjects was approximately 167 pounds and the average height around 67 inches. Interestingly, the distribution of the average diastolic blood pressure was roughly bell shaped and centered around 74.91 mm Hg. The average serum cholesterol levels were around 205.63 mg/100ml.
 
@@ -427,7 +425,7 @@ plot(nhanes[, -1])
 #| message: false
 
 nhanes_c2 <- nhanes
-nhanes_c2$SBPRANK <- as.factor(nhanes$SBPRANK)
+nhanes_c2$SBPRANK <- as.factor(nhanes_c2$SBPRANK)
 # Omit height variable
 nhanes_c2 <- nhanes_c2[, c("SBPRANK", "HSAGEIR", "BMPWTLBS",
                            "PEPMNK5R", "TCP")]
